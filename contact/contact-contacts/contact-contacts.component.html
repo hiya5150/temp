@@ -1,0 +1,89 @@
+<!-- remove create contact button, need view more button, do contact componenet page, and create editcontact component-->
+<app-contacts-nav></app-contacts-nav>
+<div *ngIf="contacts" class="table">
+  <h1 matColumnDef="title">Contacts</h1>
+  <table mat-table [dataSource]="contacts">
+    <ng-container matColumnDef="contactFirstName">
+      <th mat-header-cell *matHeaderCellDef> First Name </th>
+      <td mat-cell *matCellDef="let contact"> {{contact.firstName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="contactLastName">
+      <th mat-header-cell *matHeaderCellDef> Last Name </th>
+      <td mat-cell *matCellDef="let contact"> {{contact.lastName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="contactTitle">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let contact"> {{contact.title}} </td>
+    </ng-container>
+    <ng-container matColumnDef="contactPhone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let contact">{{contact.phone | contactInformation: 'CA'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="contactEmail">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let contact"> <a href = "mailto: {{contact.email}}">{{contact.email}} </a></td>
+    </ng-container>
+    <ng-container matColumnDef="viewMore">
+      <th mat-header-cell *matHeaderCellDef> View More </th>
+      <td mat-cell *matCellDef="let contact">
+        <button mat-stroked-button routerLink="/contact/contact/{{contact.contactId}}">View More</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayContactColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayContactColumns;"></tr>
+  </table>
+
+</div>
+<div *ngIf="!contacts">
+  <h1>This company has no contacts</h1>
+</div>
+
+<!--<form (ngSubmit)="addContact()"[ngStyle]="createForm">-->
+<!--    <h2>Create Contact</h2>-->
+<!--    <p>-->
+<!--      <mat-form-field appearance="outline">-->
+<!--        <mat-label>First Name</mat-label>-->
+<!--        <input matInput [(ngModel)]="contactFirstName" name="contactFirstName" required>-->
+<!--      </mat-form-field>-->
+<!--    </p>-->
+<!--  <p>-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Last Name</mat-label>-->
+<!--      <input matInput [(ngModel)]="contactLastName" name="contactLastName" required>-->
+<!--    </mat-form-field>-->
+<!--  </p>-->
+<!--  <p>-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Title</mat-label>-->
+<!--      <input matInput [(ngModel)]="contactTitle" name="contactTitle" required>-->
+<!--    </mat-form-field>-->
+<!--  </p>-->
+<!--  <p>-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Username</mat-label>-->
+<!--      <input matInput [(ngModel)]="contactUsername" name="contactUsername" required>-->
+<!--    </mat-form-field>-->
+<!--  </p>-->
+<!--  <p>-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Password</mat-label>-->
+<!--      <input matInput [(ngModel)]="contactPassword" name="contactPassword" required>-->
+<!--    </mat-form-field>-->
+<!--  </p>-->
+<!--  <p>-->
+<!--  <mat-form-field appearance="outline">-->
+<!--    <mat-label>Email Address</mat-label>-->
+<!--    <input matInput [(ngModel)]="contactEmail" name="contactEmail" required>-->
+<!--  </mat-form-field>-->
+<!--</p>-->
+<!--  <p>-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Phone Number</mat-label>-->
+<!--      <input matInput [(ngModel)]="contactPhone" name="contactPhone" required>-->
+<!--    </mat-form-field>-->
+<!--  </p>-->
+<!--  <div *ngIf="errorMessage1">-->
+<!--    {{errorMessage1}}-->
+<!--  </div>-->
+<!--  <button mat-raised-button color="primary">Create Contact</button>-->
+<!--</form>-->

@@ -1,0 +1,41 @@
+<app-contacts-nav></app-contacts-nav>
+
+<button mat-stroked-button color="primary" [ngStyle]="{'margin':'1rem 2rem'}" (click)="backClicked()">Back</button>
+<div *ngIf="ingredient">
+  <mat-card class="card" *ngIf="ingredient">
+    <mat-card-title><h1>Name: {{ingredient.ingredientName}}</h1></mat-card-title>
+    <mat-card-title><h2>Vendor: {{ingredient.vendorName}}</h2></mat-card-title>
+    <mat-card-content>
+      <h3>Ingredient Status: </h3>
+      <p *ngIf="ingredient.ingredientEvalStatus"> <div *ngIf="ingredient.ingredientEvalStatus == 1">&#10004; VEGAN</div><div *ngIf="ingredient.ingredientEvalStatus == 0">&#10008; NOT VEGAN</div> As Of: {{ingredient.ingredientEvalDate}}<br>
+      <hr>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button type="submit" (click)="showEditForm()" color="primary" [ngStyle]="showFormButton">Edit Ingredient</button>
+
+      <form [ngStyle]="editForm">
+        <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="ingredient.ingredientName" name="ingredientName">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Vendor</mat-label>
+            <input matInput [(ngModel)]="ingredient.vendorName" name="vendorName">
+          </mat-form-field>
+        </p>
+<!--        <p>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Note</mat-label>-->
+<!--            <input matInput [(ngModel)]="ingredient.ingredientNote" name="ingredientNote">-->
+<!--          </mat-form-field>-->
+<!--        </p>-->
+            <button mat-raised-button (click)="editIngredient(ingredient.ingredientId, ingredient.ingredientName, ingredient.vendorName)" type="submit" color="primary">Submit</button>
+        <button mat-raised-button (click)="closeEditForm()" color="warn">Cancel</button>
+      </form>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

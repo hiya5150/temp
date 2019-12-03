@@ -1,0 +1,31 @@
+<app-contacts-nav></app-contacts-nav>
+<!--<a mat-stroked-button routerLink="/contact/companies" color="primary" [ngStyle]="{'margin':'1rem 2rem'}">Back</a>-->
+<mat-card class="card" *ngIf="company">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Company Information</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div><p>Name: {{company.companyName}}</p></div>
+      <p>Address: {{company.companyAddress1}}</p>
+      <p>Address: {{company.companyAddress2}} </p>
+      <p>City: {{company.companyCity}}</p>
+      <p>Province: {{company.companyProvince}}</p>
+      <p>Postal Code: {{company.companyPostalCode}}</p>
+      <p>Country: {{company.companyCountry}}</p>
+      <p>Phone: {{company.companyPhone | contactInformation: 'CA'}}</p>
+      <p>Fax: {{company.companyFax| contactInformation: 'CA'}}</p>
+      <p>Email: {{company.companyEmail}}</p>
+      <p>Website: {{company.companyWebsite}}</p>
+      <p>Notes: {{company.companyNote}}</p>
+
+    </mat-card-content>
+    <mat-card-actions>
+
+      <button mat-raised-button (click)="openEditCompany()">Edit Company</button>
+    </mat-card-actions>
+
+
+</mat-card>
+

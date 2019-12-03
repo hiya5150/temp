@@ -1,0 +1,23 @@
+<app-contacts-nav></app-contacts-nav>
+<button mat-stroked-button color="primary" [ngStyle]="{'margin':'1rem 2rem'}" (click)="backClicked()">Back</button>
+<div>
+    <mat-card class="card" *ngIf="contact">
+    <mat-card-header>
+      <mat-card-title>
+      <h2>Contact Information</h2>
+      </mat-card-title>
+    </mat-card-header>
+      <mat-card-content>First Name: {{contact.firstName}}</mat-card-content>
+      <mat-card-content>Last Name: {{contact.lastName}}</mat-card-content>
+      <mat-card-content>Title: {{contact.title}}</mat-card-content>
+      <mat-card-content>Username: {{contact.username}}</mat-card-content>
+      <mat-card-content>Password: {{contact.password}}</mat-card-content>
+      <mat-card-content>Phone Number: {{contact.phone}}</mat-card-content>
+      <mat-card-content>Email Address: {{contact.email}}</mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="openEditContact()">Edit Contact</button>
+      </mat-card-actions>
+     </mat-card>
+</div>
+
+

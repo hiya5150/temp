@@ -1,0 +1,93 @@
+<app-contacts-nav></app-contacts-nav>
+<div  *ngIf="facilities" class="table">
+<h1 matColumnDef="title">Facilities</h1> <button mat-raised-button (click)="openFacilityForm()" color="primary">Create Facility</button>
+<table mat-table [dataSource]="facilities">
+  <ng-container matColumnDef="facilityName">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let facility"> {{facility.facilityName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="companyName">
+    <th mat-header-cell *matHeaderCellDef> Company </th>
+    <td mat-cell *matCellDef="let facility"> {{facility.companyName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="facilityAddress1">
+    <th mat-header-cell *matHeaderCellDef> Address </th>
+    <td mat-cell *matCellDef="let facility"> {{facility.facilityAddress1}} </td>
+  </ng-container>
+  <ng-container matColumnDef="facilityCity">
+    <th mat-header-cell *matHeaderCellDef>City</th>
+    <td mat-cell *matCellDef="let facility"> {{facility.facilityCity}} </td>
+  </ng-container>
+  <ng-container matColumnDef="facilityPhone">
+    <th mat-header-cell *matHeaderCellDef>Phone</th>
+    <td mat-cell *matCellDef="let facility"> {{facility.facilityPhone  | contactInformation: 'CA'}} </td>
+  </ng-container>
+  <ng-container matColumnDef="viewMore">
+    <th mat-header-cell *matHeaderCellDef> View More </th>
+    <td mat-cell *matCellDef="let facility">
+      <button mat-stroked-button routerLink="/contact/facility/{{facility.facilityId}}">View More</button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayFacilityColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayFacilityColumns;"></tr>
+</table>
+</div>
+<div *ngIf="!facilities">
+  <h1>no facilities</h1>
+</div>
+
+<form (ngSubmit)="addFacility()"[ngStyle]="createForm">
+  <h2>Create Facility</h2>
+  <p>
+    <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="facilityName" name="facilityName" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput [(ngModel)]="facilityAddress1" name="facilityAddress1" required>
+    </mat-form-field>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput [(ngModel)]="facilityAddress2" name="facilityAddress1">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <input matInput [(ngModel)]="facilityCity" name="facilityCity" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Province</mat-label>
+      <input matInput [(ngModel)]="facilityProvince" name="facilityProvince">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Postal Code</mat-label>
+      <input matInput [(ngModel)]="facilityPostalCode" name="facilityPostalCode" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input matInput [(ngModel)]="facilityPhone" name="facilityPhone" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Country</mat-label>
+      <input matInput [(ngModel)]="facilityCountry" name="facilityCountry" required>
+    </mat-form-field>
+  </p>
+  <div *ngIf="errorMessage1">
+    {{errorMessage1}}
+  </div>
+  <button mat-raised-button color="primary">Create Facility</button>
+</form>
+

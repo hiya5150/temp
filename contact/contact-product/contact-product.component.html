@@ -1,0 +1,80 @@
+<app-contacts-nav></app-contacts-nav>
+<button mat-stroked-button color="primary" [ngStyle]="{'margin':'1rem 2rem'}" (click)="backClicked()">Back</button>
+
+<div *ngIf="product">
+  <mat-card class="card" *ngIf="product">
+    <mat-card-title><h1>Name: {{product.productName}}</h1></mat-card-title>
+    <mat-card-title><h2>Brand: {{product.productBrand}}</h2></mat-card-title>
+    <mat-card-subtitle *ngIf="product.facilityName">Facility: {{product.facilityName}}</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="product.plName">Private Label: {{product.plName}}</mat-card-subtitle>
+    <mat-card-content>
+      <h3>Product Status: </h3>
+      <p *ngIf="product.productEvalStatus"><div *ngIf="product.productEvalStatus == 1">&#10004; VEGAN</div><div *ngIf="product.productEvalStatus == 0">&#10008; NOT VEGAN</div> As Of: {{product.productEvalDate}}<br>
+      <hr>
+    </mat-card-content>
+    <mat-card-actions>
+    <span *ngIf="product.productEvalStatus==1">
+    <button mat-raised-button type="submit" (click)="downloadPdf(product.productId, product.productName)" [ngStyle]="showPrintButton">Print Certificate</button>
+    </span>
+      <button mat-raised-button type="submit" (click)="showEditForm()" color="primary" [ngStyle]="showformButton">Edit Product</button>
+      <form [ngStyle]="editForm">
+        <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Name of Product</mat-label>
+            <input matInput [(ngModel)]="product.productName" name="productName">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Name of Brand</mat-label>
+            <input matInput [(ngModel)]="product.productBrand" name="productBrand">
+          </mat-form-field>
+        </p>
+        <button mat-raised-button (click)="editProduct(product.productId, product.productName, product.productBrand)" type="submit" color="primary">Submit</button>
+        <button mat-raised-button (click)="closeEditForm()" color="warn">Cancel</button>
+      </form>
+
+    </mat-card-actions>
+  </mat-card>
+
+  <div  *ngIf="ingredients" class="table">
+    <h3 matColumnDef="title">Ingredients</h3><button (click)="exportAsXLSX()" mat-stroked-button class="excel-button"><i style="font-size:24px" class="fa">&#xf1c3;</i></button><br>
+    <button mat-raised-button (click)="openIngredientForm()" color="primary">Add Ingredient to Product</button>
+    <table mat-table [dataSource]="ingredients"  class="mat-elevation-z8">
+      <ng-container matColumnDef="ingredientName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredientName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ingredientEvalStatus">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let ingredient"><div *ngIf="ingredient.ingredientEvalStatus == 1">&#10004;</div><div *ngIf="ingredient.ingredientEvalStatus == 0">&#10008;</div></td>
+      </ng-container>
+      <ng-container matColumnDef="ingredientEvalDate">
+        <th mat-header-cell *matHeaderCellDef>Last evaluated</th>
+        <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredientEvalDate}} </td>
+      </ng-container>
+      <ng-container matColumnDef="vendorName">
+        <th mat-header-cell *matHeaderCellDef> Vendor </th>
+        <td mat-cell *matCellDef="let ingredient"> {{ingredient.vendorName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ingredientNote">
+        <th mat-header-cell *matHeaderCellDef>Comment</th>
+        <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredientNote}} </td>
+      </ng-container>
+      <ng-container matColumnDef="viewMore">
+        <th mat-header-cell *matHeaderCellDef> View More </th>
+        <td mat-cell *matCellDef="let ingredient">
+          <button mat-stroked-button routerLink="/user/ingredient/{{ingredient.ingredientId}}">View More</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayIngredientColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayIngredientColumns;"
+          [ngClass]="{'green': row.ingredientEvalStatus==1, 'red': row.ingredientEvalStatus==0}"></tr>
+    </table>
+  </div>
+  <div *ngIf="!ingredients">
+    <h1>This product has no ingredients</h1>
+  </div>
+
+</div>
+

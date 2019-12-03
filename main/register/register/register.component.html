@@ -1,0 +1,64 @@
+<form (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <h2  mat-dialog-title>Register</h2>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input type="text" matInput [(ngModel)]="firstName" name="first_name" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input type="text" matInput [(ngModel)]="lastName" name="last_name" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input type="text" matInput [(ngModel)]="title" name="title" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input type="tel" matInput [(ngModel)]="phone"  name="phone" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput [(ngModel)]="email" name="email" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput [(ngModel)]="username" name="username" required>
+      </mat-form-field>
+    </p>
+        <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="text" matInput [(ngModel)]="password" name="password" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Company Code</mat-label>
+        <input type="text" matInput [(ngModel)]="companyCode" name="company_code" required>
+      </mat-form-field>
+    </p>
+    <mat-dialog-actions>
+      <button mat-raised-button [mat-dialog-close]="true">Cancel</button>
+      <button type="submit" mat-raised-button color="primary">Register</button>
+    </mat-dialog-actions>
+<!--    <p>-->
+<!--      <mat-form-field appearance="outline">-->
+<!--        <mat-label>Fax</mat-label>-->
+<!--        {{phone.getParsedPhone()| phone: 'US'}}-->
+<!--      </mat-form-field>-->
+<!--    </p>-->
+
+  </mat-dialog-content>
+</form>

@@ -1,0 +1,118 @@
+<app-contacts-nav></app-contacts-nav>
+<div  *ngIf="privateLabels" class="table">
+  <h1 matColumnDef="title">Private Label Companies</h1> <button mat-raised-button (click)="openPrivateLabelForm()" color="primary">Create Private Label Company</button>
+  <table mat-table [dataSource]="privateLabels">
+    <ng-container matColumnDef="plName">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let privateLabel"> {{privateLabel.plName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="companyName">
+      <th mat-header-cell *matHeaderCellDef> Company </th>
+      <td mat-cell *matCellDef="let privateLabel"> {{privateLabel.companyName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="plAddress1">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let privateLabel"> {{privateLabel.plAddress1}} </td>
+    </ng-container>
+    <ng-container matColumnDef="plCity">
+      <th mat-header-cell *matHeaderCellDef>City</th>
+      <td mat-cell *matCellDef="let privateLabel"> {{privateLabel.plCity}} </td>
+    </ng-container>
+    <ng-container matColumnDef="plPhone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let privateLabel"> {{privateLabel.plProvince  | contactInformation: 'CA'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="viewMore">
+      <th mat-header-cell *matHeaderCellDef> View More </th>
+      <td mat-cell *matCellDef="let privateLabel">
+        <button mat-stroked-button routerLink="/contact/privateLabel/{{privateLabel.plId}}">View More</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayPlColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayPlColumns;"></tr>
+  </table>
+</div>
+<div *ngIf="!privateLabels">
+  <h1>No Private Label Companies</h1>
+</div>
+
+<form (ngSubmit)="addPrivateLabel()"[ngStyle]="createForm">
+  <h2>Create Private Label Company</h2>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="plName" name="plName" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput [(ngModel)]="plAddress1" name="plAddress1" required>
+    </mat-form-field>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput [(ngModel)]="plAddress2" name="plAddress2">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <input matInput [(ngModel)]="plCity" name="plCity" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Province</mat-label>
+      <input matInput [(ngModel)]="plProvince" name="plProvince">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input matInput [(ngModel)]="plPhone" name="plPhone">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fax Number</mat-label>
+      <input matInput [(ngModel)]="plFax" name="plFax">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Postal Code</mat-label>
+      <input matInput [(ngModel)]="plPostalCode" name="plPostalCode" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Country</mat-label>
+      <input matInput [(ngModel)]="plCountry" name="plCountry" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Email Address</mat-label>
+      <input matInput [(ngModel)]="plEmail" name="plEmail">
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Website</mat-label>
+      <input matInput [(ngModel)]="plWebsite" name="plWebsite">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Brand Name/s</mat-label>
+      <input matInput [(ngModel)]="plBrand" name="plBrand" required>
+    </mat-form-field>
+  </p>
+  <div *ngIf="errorMessage2">
+    {{errorMessage2}}
+  </div>
+  <button mat-raised-button color="primary">Create PL Company</button>
+</form>
+

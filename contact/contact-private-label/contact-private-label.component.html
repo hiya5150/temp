@@ -1,0 +1,63 @@
+<app-contacts-nav></app-contacts-nav>
+
+<button mat-stroked-button color="primary" [ngStyle]="{'margin':'1rem 2rem'}" (click)="backClicked()">Back</button>
+<div>
+  <mat-card class="card" *ngIf="privateLabel">
+    <mat-card-header>
+      <mat-card-title>Private Label Name: {{privateLabel.plName}}</mat-card-title>
+      <mat-card-subtitle><h2>Company: {{privateLabel.companyName}}</h2></mat-card-subtitle>
+      <mat-card-subtitle>Phone: {{privateLabel.plPhone  | contactInformation: 'CA'}}</mat-card-subtitle>
+      <mat-card-subtitle>Fax: {{privateLabel.plFax | contactInformation: 'CA'}}</mat-card-subtitle>
+
+    </mat-card-header>
+    <mat-card-content>
+      <h3>Address: </h3>
+      <p>{{privateLabel.plAddress1}} {{privateLabel.plAddress2}}</p>
+      <p>{{privateLabel.plCity}}, {{privateLabel.plProvince}}</p>
+      <p>{{privateLabel.plPostalCode}}, {{privateLabel.plCountry}}</p>
+      <p>{{privateLabel.plEmail}}, {{privateLabel.plWebsite}}</p>
+
+
+      <br>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="openEditPrivateLabel()">Edit Private Label</button>
+      <!--      <button mat-raised-button (click)="showDeleteForm()" *ngIf="!facilities">Delete</button>-->
+    </mat-card-actions>
+  </mat-card>
+
+
+  <div  *ngIf="products" class="table">
+    <h3 matColumnDef="title">Products made for this PL Company</h3>
+    <table mat-table [dataSource]="products">
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let product"> {{product.productName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="plName">
+        <th mat-header-cell *matHeaderCellDef> Private Label </th>
+        <td mat-cell *matCellDef="let product"> {{product.plName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productBrand">
+        <th mat-header-cell *matHeaderCellDef> Brand </th>
+        <td mat-cell *matCellDef="let product"> {{product.productBrand}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productEvalStatus">
+        <th mat-header-cell *matHeaderCellDef>Approved</th>
+        <td mat-cell *matCellDef="let product"><div *ngIf="product.productEvalStatus == 1">&#10004;</div><div *ngIf="product.productEvalStatus == 0">&#10008;</div></td>
+      </ng-container>
+      <ng-container matColumnDef="viewMore">
+        <th mat-header-cell *matHeaderCellDef> View More </th>
+        <td mat-cell *matCellDef="let product">
+          <button mat-stroked-button routerLink="/user/product/{{product.productId}}">View More</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayProductsColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayProductsColumns;"></tr>
+    </table>
+  </div>
+  <div *ngIf="!products">
+    <h1>This company has no products made in this facility</h1>
+  </div>
+</div>
+

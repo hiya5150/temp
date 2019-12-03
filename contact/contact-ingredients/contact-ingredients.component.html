@@ -1,0 +1,79 @@
+<!--TODO as of should only appear if ingredient is evaluated as Vegan-->
+<app-contacts-nav></app-contacts-nav>
+
+<mat-tab-group>
+  <mat-tab label="Search by Name">
+    <form (ngSubmit)="findCompanyIngredient()">
+      <mat-form-field>
+        <label for="search"></label>
+        <input id="search" matInput type="text" name="ingredientName" placeholder="Name" [(ngModel)]="ingredientName">
+      </mat-form-field>
+      <button mat-stroked-button color="primary" (keyup.enter)="findCompanyIngredient()">Search</button>
+    </form>
+  </mat-tab>
+  </mat-tab-group>
+
+<div class="table" *ngIf="ingredients">
+
+  <h1 matColumnDef="title">Ingredients</h1>
+
+  <button (click)="exportAsXLSX()" mat-stroked-button class="excel-button"><i style="font-size:24px" class="fa">&#xf1c3;</i></button><br>
+  <button mat-raised-button (click)="openIngredientForm()" color="primary">Create Ingredient</button>
+  <table mat-table [dataSource]="ingredients" class="mat-elevation-z8">
+    <ng-container matColumnDef="ingredientId">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let ingredient">{{ingredient.ingredientId}}</td>
+    </ng-container>
+    <ng-container matColumnDef="ingredientName">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredientName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="ingredientEvalStatus">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let ingredient"><div *ngIf="ingredient.ingredientEvalStatus == 1">&#10004;</div><div *ngIf="ingredient.ingredientEvalStatus == 0">&#10008;</div></td>
+    </ng-container>
+    <ng-container matColumnDef="vendorName">
+      <th mat-header-cell *matHeaderCellDef> Vendor </th>
+      <td mat-cell *matCellDef="let ingredient"> {{ingredient.vendorName}} </td>
+    </ng-container>
+<!--    <ng-container matColumnDef="ingredientNote">-->
+<!--    <th mat-header-cell *matHeaderCellDef>Comment</th>-->
+<!--    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredientNote}} </td>-->
+<!--    </ng-container>-->
+    <ng-container matColumnDef="viewMore">
+      <th mat-header-cell *matHeaderCellDef> View More </th>
+      <td mat-cell *matCellDef="let ingredient">
+        <button mat-stroked-button routerLink="/contact/ingredient/{{ingredient.ingredientId}}">View More</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayIngredientsColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayIngredientsColumns;"
+      [ngClass]="{'green': row.ingredientEvalStatus==1, 'red': row.ingredientEvalStatus==0}"></tr>
+  </table>
+</div>
+
+
+<div *ngIf="!ingredients">
+  <h1>no ingredients</h1>
+</div>
+
+<form (ngSubmit)="addIngredient()"[ngStyle]="createForm">
+  <h2>Create Ingredient</h2>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Ingredient Name</mat-label>
+      <input matInput [(ngModel)]="ingredientName" name="ingredientName" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Vendor Name</mat-label>
+      <input matInput [(ngModel)]="vendorName" name="vendorName" required>
+    </mat-form-field>
+  </p>
+
+  <div *ngIf="errorMessage1">
+    {{errorMessage1}}
+  </div>
+  <button mat-raised-button color="primary">Create Ingredient</button>
+</form>

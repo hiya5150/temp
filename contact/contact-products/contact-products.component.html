@@ -1,0 +1,123 @@
+<app-contacts-nav></app-contacts-nav>
+
+<mat-tab-group>
+  <mat-tab label="Search by Name">
+    <form (ngSubmit)="findProduct()">
+      <mat-form-field>
+        <label for="search"></label>
+        <input id="search" matInput type="text" name="productName" placeholder="Name" [(ngModel)]="productName">
+      </mat-form-field>
+      <button mat-stroked-button color="primary" (keyup.enter)="findProduct()">Search</button>
+    </form>
+  </mat-tab>
+</mat-tab-group>
+
+<br><br>
+<div class="table"  *ngIf="products">
+  <h1 matColumnDef="title">Products</h1>
+  <button (click)="exportAsXLSX()" mat-stroked-button class="excel-button"><i style="font-size:24px" class="fa">&#xf1c3;</i></button><br>
+  <button mat-raised-button (click)="openProductForm()" color="primary">Create Product</button>
+  <table mat-table [dataSource]="products" class="mat-elevation-z8" multiTemplateDataRows>
+    <ng-container matColumnDef="productId">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let product"> {{product.productId}} </td>
+    </ng-container>
+    <ng-container matColumnDef="productName">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let product"> {{product.productName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="productBrand">
+      <th mat-header-cell *matHeaderCellDef> Brand </th>
+      <td mat-cell *matCellDef="let product"> {{product.productBrand}} </td>
+    </ng-container>
+    <ng-container matColumnDef="productEvalStatus">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let product"><div *ngIf="product.productEvalStatus == 1">&#10004;</div><div *ngIf="product.productEvalStatus == 0">&#10008;</div></td>
+      <td mat-cell *matCellDef="let product"> {{product.productEvalStatus}} </td>
+    </ng-container>
+       <ng-container matColumnDef="productFacility">
+      <th mat-header-cell *matHeaderCellDef>Facility</th>
+      <td mat-cell *matCellDef="let product"> {{product.facilityName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="productPrivateLabel">
+      <th mat-header-cell *matHeaderCellDef>Private Label</th>
+      <td mat-cell *matCellDef="let product"> {{product.plName}} </td>
+    </ng-container>
+
+<!--    <ng-container matColumnDef="productNote">-->
+<!--      <td mat-cell *matCellDef="let product" [attr.colspan]="displayProductsColumns.length">-->
+<!--        <div class="example-element-detail"-->
+<!--             [@detailExpand]="product == expandedElement ? 'expanded' : 'collapsed'">-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Add Comment</mat-label>-->
+<!--            <textarea matInput name="productNote" [(ngModel)]="product.productNote" rows="5"></textarea>-->
+<!--          </mat-form-field>-->
+<!--          <button mat-raised-button (click)="editProductNote(product.productId, product.productNote)" type="submit" color="primary">Submit</button><br>-->
+<!--        </div>-->
+<!--      </td>-->
+<!--    </ng-container>-->
+
+    <ng-container matColumnDef="viewMore">
+      <th mat-header-cell *matHeaderCellDef> View More </th>
+      <td mat-cell *matCellDef="let product">
+        <button mat-stroked-button routerLink="/contact/product/{{product.productId}}">View More</button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="download">
+      <th mat-header-cell *matHeaderCellDef> Download Certificate</th>
+      <td mat-cell *matCellDef="let product">
+        <button mat-stroked-button *ngIf="product.productEvalStatus==1" (click)="downloadPdf(product.productId, product.productName)">Download</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayProductsColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayProductsColumns;"
+        [ngClass]="{'green': row.productEvalStatus==1, 'red': row.productEvalStatus==0}"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === row"
+        (click)="expandedElement = expandedElement === row ? null : row"></tr>
+<!--    <tr mat-row *matRowDef="let expandedRow; columns: ['productNote']" class="example-detail-row"></tr>-->
+  </table>
+</div>
+<div *ngIf="!products">
+  <h1>no products!</h1>
+</div>
+<form (ngSubmit)="addProduct(companyId, productName, productBrand, plId, facilityId)"[ngStyle]="createForm">
+  <h2>Create Product</h2>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Name of Product</mat-label>
+      <input matInput [(ngModel)]="productName" name="productName" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Name of Brand </mat-label>
+      <input matInput [(ngModel)]="productBrand" name="brandName" required>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+            <mat-label>Name of Facility </mat-label>
+<!--      <mat-select placeholder="select facility" name="facilityName"-->
+<!--                  [(ngModel)]="facilityId">-->
+<!--        <mat-option *ngFor="let facility of facilities" [value]="facilityId">{{facility.facilityName}}{{facility.facilityId}}</mat-option>-->
+<!--      </mat-select>-->
+      <input matInput [(ngModel)]="productFacility" name="facilityName" required>
+
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Name of PL Company </mat-label>
+      <input matInput [(ngModel)]="productPrivateLabel" name="plName">
+    </mat-form-field>
+  </p>
+<div *ngIf="errorMessage1">
+  {{errorMessage1}}
+</div>
+<button mat-raised-button color="primary">Create Product</button>
+</form>
+
+<footer>
+  <a href="https://icons8.com/icon/117561/microsoft-excel-2019" class="iconLinkLegal">Microsoft Excel 2019 icon by Icons8</a>
+</footer>
